@@ -1,0 +1,43 @@
+{
+  "name": "astar-pos",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=frontend",
+    "start:dev": "npm run start:dev --workspace=backend",
+    "lint": "eslint \"{frontend,shared}/src/**/*.{ts,tsx}\" --max-warnings=0 && npm run lint --workspace=backend",
+    "lint:fix": "eslint \"{frontend,shared}/src/**/*.{ts,tsx}\" --fix && npm run lint --workspace=backend -- --fix",
+    "format": "prettier --write \"{frontend,backend,shared}/src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"{frontend,backend,shared}/src/**/*.{ts,tsx}\"",
+    "test": "npm run test --workspaces --if-present",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "^2.29.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0"
+  },
+  "lint-staged": {
+    "{frontend,shared}/src/**/*.{ts,tsx}": [
+      "eslint --max-warnings=0",
+      "prettier --check"
+    ],
+    "backend/src/**/*.ts": [
+      "bash -c 'cd backend && ./node_modules/.bin/eslint --max-warnings=0'",
+      "prettier --check"
+    ]
+  }
+}

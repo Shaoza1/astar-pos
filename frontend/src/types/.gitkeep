@@ -1,0 +1,2 @@
+// Frontend-specific types — import shared types from @astar-pos/shared
+export {};

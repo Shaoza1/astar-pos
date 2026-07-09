@@ -1,0 +1,2 @@
+# Blocks commits that fail lint or formatting — keeps the codebase clean at the source
+./node_modules/.bin/lint-staged
