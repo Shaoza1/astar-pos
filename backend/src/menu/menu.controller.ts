@@ -11,14 +11,16 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { CreateMenuItemDto } from './dto/create-menu-item.dto';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { DeductStockForSaleDto } from './dto/deduct-stock-for-sale.dto';
 import { UpdateMenuItemDto } from './dto/update-menu-item.dto';
 import { MenuService } from './menu.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('menu')
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
@@ -41,12 +43,14 @@ export class MenuController {
     return this.menuService.findOne(id);
   }
 
+  @Roles('owner', 'manager')
   @Post('items')
   @HttpCode(201)
   create(@Body() dto: CreateMenuItemDto) {
     return this.menuService.create(dto);
   }
 
+  @Roles('owner', 'manager')
   @Patch('items/:id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -55,6 +59,7 @@ export class MenuController {
     return this.menuService.update(id, dto);
   }
 
+  @Roles('owner', 'manager')
   @Post('recipes')
   @HttpCode(201)
   createOrUpdateRecipe(@Body() dto: CreateRecipeDto) {

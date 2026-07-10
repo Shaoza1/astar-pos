@@ -12,13 +12,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { StockAdjustmentDto } from './dto/stock-adjustment.dto';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
 import { InventoryService } from './inventory.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('inventory')
 export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
@@ -38,12 +40,14 @@ export class InventoryController {
     return this.inventoryService.findOne(id);
   }
 
+  @Roles('owner', 'manager')
   @Post('ingredients')
   @HttpCode(201)
   create(@Body() dto: CreateIngredientDto) {
     return this.inventoryService.create(dto);
   }
 
+  @Roles('owner', 'manager')
   @Patch('ingredients/:id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -52,12 +56,14 @@ export class InventoryController {
     return this.inventoryService.update(id, dto);
   }
 
+  @Roles('owner', 'manager')
   @Delete('ingredients/:id')
   @HttpCode(204)
   deactivate(@Param('id', ParseUUIDPipe) id: string) {
     return this.inventoryService.deactivate(id);
   }
 
+  @Roles('owner', 'manager')
   @Post('stock/adjust')
   @HttpCode(201)
   adjustStock(@Body() dto: StockAdjustmentDto) {
