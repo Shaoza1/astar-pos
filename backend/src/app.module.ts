@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { InventoryModule } from './inventory/inventory.module';
     ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     DatabaseModule,
     InventoryModule,
+    MenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],
