@@ -8,6 +8,7 @@ import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { MenuModule } from './menu/menu.module';
+import { OrdersModule } from './orders/orders.module';
 import { StaffModule } from './staff/staff.module';
 
 @Module({
@@ -18,6 +19,7 @@ import { StaffModule } from './staff/staff.module';
     StaffModule,
     InventoryModule,
     MenuModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
