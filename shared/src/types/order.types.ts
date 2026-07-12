@@ -111,3 +111,107 @@ export interface SplitBillDto {
   }[];
   processedBy: string;
 }
+
+export type PaymentMethod = 'cash' | 'card' | 'staff_account' | 'split';
+export type TransactionStatus = 'pending' | 'completed' | 'refunded' | 'failed';
+export type ShiftName = 'morning' | 'evening';
+
+export interface ProcessPaymentDto {
+  tableSessionId: string;
+  paymentMethod: PaymentMethod;
+  amount: number;
+  processedBy: string;
+  paymentReference?: string;
+  staffAccountId?: string;
+}
+
+export interface ProcessSplitPaymentDto {
+  tableSessionId: string;
+  processedBy: string;
+  splits: {
+    amount: number;
+    paymentMethod: 'cash' | 'card' | 'staff_account';
+    paymentReference?: string;
+    staffAccountId?: string;
+  }[];
+}
+
+export interface TransactionDto {
+  id: string;
+  tableSessionId: string;
+  processedBy: string;
+  totalAmount: number;
+  paymentMethod: PaymentMethod;
+  paymentReference: string | null;
+  paidAt: string;
+  splits: TransactionSplitDto[];
+}
+
+export interface TransactionSplitDto {
+  id: string;
+  transactionId: string;
+  splitAmount: number;
+  paymentMethod: 'cash' | 'card' | 'staff_account';
+  paymentReference: string | null;
+}
+
+export interface InitiateCardPaymentDto {
+  amount: number;
+  currency: string;
+  reference: string;
+  provider: 'yoco' | 'peach';
+}
+
+export interface CardPaymentResultDto {
+  success: boolean;
+  reference: string;
+  provider: string;
+  rawResponse: Record<string, unknown>;
+}
+
+export interface StaffAccountDto {
+  id: string;
+  staffId: string;
+  staffName: string;
+  balance: number;
+  creditLimit: number;
+}
+
+export interface ChargeStaffAccountDto {
+  staffAccountId: string;
+  amount: number;
+  description: string;
+  createdBy: string;
+}
+
+export interface OpenShiftDto {
+  shift: ShiftName;
+  openedBy: string;
+  openingCashFloat: number;
+}
+
+export interface CloseShiftDto {
+  shiftReportId: string;
+  closedBy: string;
+  actualCashInTill: number;
+}
+
+export interface ShiftReportDto {
+  id: string;
+  shiftDate: string;
+  shift: ShiftName;
+  openedBy: string;
+  closedBy: string | null;
+  openedAt: string;
+  closedAt: string | null;
+  openingCashFloat: number;
+  totalSales: number;
+  totalCash: number;
+  totalCard: number;
+  totalStaffAccount: number;
+  totalVoids: number;
+  actualCashInTill: number | null;
+  expectedCashInTill: number | null;
+  cashVariance: number | null;
+  isOpen: boolean;
+}
