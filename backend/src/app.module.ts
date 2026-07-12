@@ -10,6 +10,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { MenuModule } from './menu/menu.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
+import { ReportingModule } from './reporting/reporting.module';
 import { StaffModule } from './staff/staff.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { StaffModule } from './staff/staff.module';
     MenuModule,
     OrdersModule,
     PaymentsModule,
+    ReportingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
