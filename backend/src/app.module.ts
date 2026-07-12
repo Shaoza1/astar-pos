@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { MenuModule } from './menu/menu.module';
 import { OrdersModule } from './orders/orders.module';
+import { PaymentsModule } from './payments/payments.module';
 import { StaffModule } from './staff/staff.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { StaffModule } from './staff/staff.module';
     InventoryModule,
     MenuModule,
     OrdersModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
