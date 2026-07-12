@@ -65,3 +65,133 @@ export interface LowStockAlertDto {
   consumptionUnit: string;
   stockStatus: 'low' | 'out';
 }
+
+export interface VarianceReportRowDto {
+  ingredientId: string;
+  ingredientName: string;
+  ingredientGroup: string;
+  consumptionUnit: string;
+  openingStock: number;
+  stockReceived: number;
+  expectedConsumption: number;
+  actualCount: number;
+  variance: number;
+  varianceType: 'shortage' | 'over' | 'exact';
+  stockStatus: 'ok' | 'low' | 'out';
+}
+
+export interface VarianceReportDto {
+  id: string;
+  shiftReportId: string;
+  shiftDate: string;
+  shift: string;
+  rows: VarianceReportRowDto[];
+  totalShortages: number;
+  totalOvers: number;
+  significantShortages: number;
+  generatedAt: string;
+}
+
+export interface VarianceFilterDto {
+  filter: 'all' | 'shortages' | 'overs';
+  shiftReportId: string;
+}
+
+export interface SubmitActualCountsDto {
+  shiftReportId: string;
+  counts: {
+    ingredientId: string;
+    actualCount: number;
+  }[];
+  submittedBy: string;
+}
+
+export interface SalesSummaryDto {
+  period: string;
+  totalRevenue: number;
+  totalTransactions: number;
+  totalVoids: number;
+  voidValue: number;
+  averageTableSpend: number;
+  byGroup: {
+    groupName: string;
+    revenue: number;
+    itemsSold: number;
+    percentage: number;
+  }[];
+  topItems: {
+    menuItemId: string;
+    menuItemName: string;
+    quantitySold: number;
+    revenue: number;
+  }[];
+  byStaff: {
+    staffId: string;
+    staffName: string;
+    totalSales: number;
+    tablesClosed: number;
+  }[];
+  byHour: {
+    hour: number;
+    revenue: number;
+    orderCount: number;
+  }[];
+}
+
+export interface DeliveryDto {
+  id: string;
+  supplierName: string;
+  deliveryDate: string;
+  recordedBy: string;
+  invoiceReference: string | null;
+  status: 'pending' | 'verified' | 'disputed';
+  items: DeliveryItemDto[];
+  totalDiscrepancyItems: number;
+}
+
+export interface DeliveryItemDto {
+  id: string;
+  ingredientId: string;
+  ingredientName: string;
+  purchaseUnit: string;
+  quantityOrdered: number | null;
+  quantityReceived: number;
+  discrepancy: number;
+  costPerUnit: number | null;
+}
+
+export interface CreateDeliveryDto {
+  supplierName: string;
+  deliveryDate: string;
+  invoiceReference?: string;
+  recordedBy: string;
+  items: {
+    ingredientId: string;
+    quantityOrdered?: number;
+    quantityReceived: number;
+    costPerUnit?: number;
+  }[];
+}
+
+export interface ChartDataDto {
+  topVariances: {
+    ingredientName: string;
+    variance: number;
+    varianceType: 'shortage' | 'over';
+  }[];
+  topSellingItems: {
+    menuItemName: string;
+    quantitySold: number;
+    revenue: number;
+  }[];
+  revenueByShift: {
+    date: string;
+    morning: number;
+    evening: number;
+  }[];
+  stockLevelSummary: {
+    ok: number;
+    low: number;
+    out: number;
+  };
+}

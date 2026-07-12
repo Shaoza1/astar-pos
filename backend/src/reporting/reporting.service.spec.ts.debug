@@ -1,0 +1,16 @@
+// Add this temporarily to the test to debug
+it('DEBUG should return all rows when filter is all', async () => {
+  shiftRepo.findOne.mockResolvedValue({ id: 'shift-1', shiftDate: '2025-01-01', shift: 'morning' });
+  mockDataSource.query.mockResolvedValue([
+    { id: 'vr-1', ingredient_id: 'ing-1', ingredient_name: 'Milk', group_name: 'Dairy', consumption_unit: 'L', opening_stock: '10', stock_received: '0', expected_consumption: '3', actual_count: '8', variance: '-1', variance_type: 'shortage', current_stock: '5', low_stock_threshold: '2' },
+  ]);
+  
+  console.log('shiftRepo.findOne calls before:', shiftRepo.findOne.mock.calls.length);
+  console.log('mockDataSource.query calls before:', mockDataSource.query.mock.calls.length);
+  
+  const result = await service.getVarianceReport('shift-1', 'all');
+  
+  console.log('shiftRepo.findOne calls after:', shiftRepo.findOne.mock.calls.length);
+  console.log('mockDataSource.query calls after:', mockDataSource.query.mock.calls.length);
+  console.log('result.rows:', result.rows);
+});

@@ -493,6 +493,10 @@ describe('OrdersService', () => {
       auditRepo.create.mockReturnValue({});
       auditRepo.save.mockRejectedValue(new Error('DB constraint'));
 
+      const logSpy = jest
+        .spyOn(service['logger'], 'error')
+        .mockImplementation(() => undefined);
+
       // Must not throw — audit failure is swallowed
       await expect(
         service.voidOrderItem({
@@ -501,6 +505,11 @@ describe('OrdersService', () => {
           voidedBy: 'staff-1',
         }),
       ).resolves.not.toThrow();
+
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Audit log insert failed'),
+      );
+      logSpy.mockRestore();
     });
   });
 });
