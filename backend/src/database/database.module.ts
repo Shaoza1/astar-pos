@@ -10,13 +10,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
         url: config.get<string>('databaseUrl'),
-        // synchronize: false — schema is managed exclusively through numbered SQL migrations
         synchronize: false,
-        // migrationsRun: false — migrations are applied manually, never on startup
         migrationsRun: false,
         logging: config.get<string>('nodeEnv') === 'development',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
+        extra: {
+          max: config.get<number>('DB_POOL_MAX', 10),
+          min: config.get<number>('DB_POOL_MIN', 2),
+          acquire: 30000,
+          idle: 10000,
+        },
       }),
     }),
   ],

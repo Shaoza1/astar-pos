@@ -6,6 +6,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -17,6 +18,7 @@ import { WebAuthnRegistrationDto } from './dto/webauthn-registration.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 
+@Throttle({ default: { ttl: 60000, limit: 10 } })
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('auth')
 export class AuthController {
