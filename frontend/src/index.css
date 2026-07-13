@@ -1,2 +1,23 @@
 /* Tailwind v4 — directives replaced by CSS import */
 @import 'tailwindcss';
+
+:root {
+  --color-primary: #1f3d3d;
+  --color-primary-light: #2d5a5a;
+  --color-accent: #f59e0b;
+  --color-danger: #ef4444;
+  --color-success: #10b981;
+  --color-surface: #f8fafc;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  min-height: 44px;
+}
